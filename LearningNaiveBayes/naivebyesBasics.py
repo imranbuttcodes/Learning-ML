@@ -163,9 +163,11 @@ print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
+
 # Sample Emails
 emails = ["buy buy", "buy", "meeting meeting", "meeting"]
 labels = [1, 1, 0, 0]  # 1 = Spam, 0 = NotSpam
+
 
 # Convert text to word counts
 vectorizer = CountVectorizer()
