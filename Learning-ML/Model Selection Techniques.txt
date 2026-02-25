@@ -1,0 +1,187 @@
+Great — this is something every real ML engineer follows.
+I’ll give you a **practical Model Selection Strategy** you can use on **any dataset**.
+
+---
+
+# Step 1: First Look at the Dataset
+
+Ask yourself:
+
+### 1. Size of data
+
+* **< 10,000 rows** → Most models work
+* **> 100,000 rows** → Avoid SVM
+
+### 2. Type of data
+
+* Numeric?
+* Categorical?
+* Text?
+* Images?
+
+---
+
+# Step 2: Model Selection Flow (Real Workflow)
+
+## Case 1: Tabular Data (like Titanic, customer data)
+
+Start in this order:
+
+### Step 1: Logistic Regression
+
+Why?
+
+* Fast
+* Baseline model
+* Easy to interpret
+
+```python
+LogisticRegression()
+```
+
+---
+
+### Step 2: Decision Tree
+
+Captures non-linear patterns
+
+```python
+DecisionTreeClassifier()
+```
+
+---
+
+### Step 3: Random Forest
+
+Usually gives better accuracy
+
+```python
+RandomForestClassifier()
+```
+
+---
+
+### Step 4: SVM
+
+Use when:
+
+* Data is small/medium
+* Features are scaled
+* Need high accuracy
+
+```python
+SVC(kernel='rbf')
+```
+
+---
+
+# Case 2: Text Data
+
+Start with:
+
+1. Naive Bayes (fast and strong baseline)
+2. SVM (often best for text)
+
+Example:
+
+* Spam detection
+* Sentiment analysis
+
+---
+
+# Case 3: Very Large Dataset
+
+Avoid:
+
+* SVM
+
+Use:
+
+* Random Forest
+* XGBoost / Gradient Boosting
+* Neural Networks (if very large)
+
+---
+
+# Step 3: Compare Models
+
+Always do:
+
+1. Train multiple models
+2. Compare:
+
+   * Accuracy
+   * Precision / Recall
+   * Confusion matrix
+
+Best model = highest test performance (not training)
+
+---
+
+# Step 4: Overfitting Check
+
+If:
+
+* Training accuracy high
+* Testing accuracy low
+
+Then:
+
+* Reduce complexity
+* Tune hyperparameters
+
+---
+
+# Step 5: Simple Rule (Remember this)
+
+### Tabular Data
+
+Start:
+
+```
+Logistic → Tree → Random Forest → SVM
+```
+
+### Text
+
+```
+Naive Bayes → SVM
+```
+
+### Large Data
+
+```
+Random Forest / Boosting
+```
+
+---
+
+# Real-World Strategy (Important)
+
+In practice:
+
+Engineers don’t guess the best model.
+
+They:
+
+1. Try 4–5 models
+2. Compare performance
+3. Pick best one
+
+Exactly like you did in Titanic — good work.
+
+---
+
+# Based on what you’ve learned so far
+
+You now know:
+
+* KNN
+* Logistic Regression
+* Decision Tree
+* Random Forest
+* Naive Bayes
+* SVM
+
+This is already a **strong classical ML toolkit**.
+
