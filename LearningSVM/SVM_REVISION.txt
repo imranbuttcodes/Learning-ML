@@ -461,14 +461,3 @@ SVM = High accuracy, small/medium data! 🎯
 ---
 
 ## REVISION COMPLETE! ✅
-
-```
-YOU NOW KNOW:
-✅ What SVM does (max margin)
-✅ Support Vectors concept
-✅ Three kernels (Linear, RBF, Poly)
-✅ C parameter (strictness)
-✅ gamma parameter (influence)
-✅ When to use SVM
-✅ Must scale features!
-✅ Complete code template
