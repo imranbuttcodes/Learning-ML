@@ -1,0 +1,182 @@
+## **1️⃣ Streamlit Basics**
+
+Streamlit is a Python library to build **interactive web apps** for data/ML projects **without HTML/CSS/JS**.
+
+You run:
+
+```bash
+streamlit run app.py
+```
+
+* This opens a **local web server** in your browser.
+* Every time you **change the code**, Streamlit **auto-refreshes** the app.
+
+---
+
+## **2️⃣ Main Functions**
+
+### **2.1 `st.title` and `st.header`**
+
+* `st.title("Titanic Predictor")` → Big main title
+* `st.header("Section")` → Smaller header
+* `st.subheader("Sub-section")` → Even smaller
+
+Example:
+
+```python
+import streamlit as st
+st.title("Hello World App")
+st.header("Section 1")
+st.subheader("Details")
+```
+
+**Parameters:**
+
+* `text` → string to display
+* Optional: you can pass emojis too `"🚀"`
+
+---
+
+### **2.2 `st.write`**
+
+* Works like `print()` but **renders nicely in the app**
+* Can print **strings, numbers, DataFrames, charts**
+
+Example:
+
+```python
+import pandas as pd
+df = pd.DataFrame({'A':[1,2], 'B':[3,4]})
+st.write("Here is my dataframe:")
+st.write(df)
+```
+
+* Output: nicely formatted **table** in app.
+
+---
+
+### **2.3 Input Widgets**
+
+These let the user **give input**.
+
+#### **2.3.1 `st.selectbox`**
+
+* Dropdown selection
+
+```python
+option = st.selectbox("Choose a class", [1,2,3])
+st.write("You selected:", option)
+```
+
+**Parameters:**
+
+* `label` → text above dropdown
+* `options` → list of choices
+* Optional: `index` → default selected index
+
+---
+
+#### **2.3.2 `st.slider`**
+
+* For numbers or ranges
+
+```python
+age = st.slider("Select Age", 0, 100, 25)
+```
+
+**Parameters:**
+
+* `label` → text
+* `min_value`, `max_value` → range
+* `value` → default selected
+
+---
+
+#### **2.3.3 `st.number_input`**
+
+* Direct numeric input
+
+```python
+fs = st.number_input("Family Size", 0, 10, 1)
+```
+
+**Parameters:**
+
+* `label` → text
+* `min_value`, `max_value` → range
+* `value` → default
+
+---
+
+#### **2.3.4 `st.checkbox`**
+
+* True/False toggle
+
+```python
+if st.checkbox("Show details"):
+    st.write("You checked the box!")
+```
+
+**Returns:** `True` if checked, `False` otherwise
+
+---
+
+#### **2.3.5 `st.button`**
+
+* Executes **code on click**
+
+```python
+if st.button("Predict"):
+    st.write("Prediction Done!")
+```
+
+* Unlike other widgets, buttons **trigger actions**
+
+---
+
+### **2.4 Display Charts**
+
+You can use **matplotlib, seaborn, or Streamlit native charts**
+
+```python
+import matplotlib.pyplot as plt
+
+x = [1,2,3]
+y = [10,20,30]
+plt.plot(x,y)
+st.pyplot(plt)  # display matplotlib figure
+```
+
+---
+
+### **2.5 Display ML Model Results**
+
+* Use `st.write` for numbers / text
+* Use `st.pyplot` or `st.bar_chart` for graphs
+
+---
+
+### **2.6 File Organization**
+
+* Keep model separate (`.pkl`) → faster
+* App (`app.py`) → only **loads model, takes input, predicts, shows output**
+
+---
+
+So bro, before we build the Titanic app, you **understand** each function:
+
+| Function          | Purpose                                   | Returns / Notes         |
+| ----------------- | ----------------------------------------- | ----------------------- |
+| `st.title`        | Main page title                           | None                    |
+| `st.header`       | Section title                             | None                    |
+| `st.subheader`    | Sub-section title                         | None                    |
+| `st.write`        | Display text, numbers, dataframes, charts | None                    |
+| `st.selectbox`    | Dropdown selection                        | Returns selected value  |
+| `st.slider`       | Slider for numeric input                  | Returns selected value  |
+| `st.number_input` | Numeric input box                         | Returns entered number  |
+| `st.checkbox`     | True/False toggle                         | Returns True/False      |
+| `st.button`       | Executes code on click                    | Returns True if clicked |
+| `st.pyplot`       | Display matplotlib figure                 | None                    |
+| `st.bar_chart`    | Display bar chart                         | None                    |
+
+---
