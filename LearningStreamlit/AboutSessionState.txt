@@ -1,0 +1,245 @@
+# 🧠 First: The Core Problem
+
+You already learned:
+
+> Streamlit reruns the whole script from top to bottom every time something changes.
+
+So imagine this:
+
+```python
+count = 0
+
+if st.button("Increment"):
+    count += 1
+
+st.write(count)
+```
+
+What happens?
+
+You click the button.
+
+Streamlit reruns the script.
+
+`count` becomes 0 again.
+
+So it always shows 1.
+
+Because:
+
+```text
+Script rerun = memory reset
+```
+
+That’s the problem.
+
+---
+
+# 🧱 So What Is `session_state`?
+
+`st.session_state` is:
+
+> A special dictionary that remembers values between reruns.
+
+Think of it like:
+
+```text
+Normal variable → forgets after rerun
+session_state → remembers after rerun
+```
+
+It is basically memory storage for one user session.
+
+---
+
+# 🧠 What Is a "Session"?
+
+A session = one user visiting your app.
+
+If 5 users open your app:
+
+* Each user gets their own session
+* Each session has its own `session_state`
+
+So it’s isolated per user.
+
+---
+
+# 🧠 What Does It Actually Look Like?
+
+It behaves like a dictionary:
+
+```python
+st.session_state["name"] = "Imran"
+```
+
+or
+
+```python
+st.session_state.name = "Imran"
+```
+
+Both work.
+
+---
+
+# 🔥 Simple Example (You Must Understand This)
+
+```python
+import streamlit as st
+
+if "count" not in st.session_state:
+    st.session_state.count = 0
+
+if st.button("Increment"):
+    st.session_state.count += 1
+
+st.write("Count:", st.session_state.count)
+```
+
+Now when you click button:
+
+* Script reruns
+* But `st.session_state.count` stays stored
+* So it increases properly
+
+That’s persistence.
+
+---
+
+# 🧠 Why We Check "if not in session_state"?
+
+Because on first run:
+
+```python
+st.session_state.count
+```
+
+does not exist yet.
+
+So we initialize it once.
+
+After that, it survives.
+
+---
+
+# 🔥 Why It Is Mandatory For Chat Apps
+
+Without session_state:
+
+```python
+messages = []
+```
+
+After rerun → messages becomes empty again.
+
+So chat history disappears.
+
+But with:
+
+```python
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+```
+
+Chat history survives every rerun.
+
+---
+
+# 🧠 Visual Model
+
+Think of it like this:
+
+```text
+User clicks button
+      ↓
+Script reruns
+      ↓
+Normal variables reset
+      ↓
+session_state survives
+```
+
+It’s like a hidden storage box attached to the browser session.
+
+---
+
+# 🧠 Under The Hood (Advanced Understanding)
+
+Streamlit:
+
+* Runs your script in a loop
+* Keeps a session object internally
+* Stores session_state in that session object
+* Reinjects it into script each rerun
+
+So technically:
+
+It’s not magic.
+
+It’s state injection.
+
+---
+
+# 🚨 Very Important
+
+`session_state` is NOT:
+
+* Database
+* Permanent storage
+* Shared across users
+
+If server restarts → session_state resets.
+
+It’s temporary memory.
+
+---
+
+# 🧪 Try This Experiment
+
+Put this in your app:
+
+```python
+st.write(st.session_state)
+```
+
+Click buttons, add things.
+
+You’ll see it behaving like a dictionary.
+
+---
+
+# 🎯 Real Use Cases
+
+We use `session_state` for:
+
+* Chat history
+* Login state
+* Form values
+* Multi-step forms
+* Game score
+* Toggle states
+* Counters
+
+Without it, you can’t build serious apps.
+
+---
+
+# 🧠 Deep Mental Model
+
+Think like this:
+
+Streamlit is like:
+
+```text
+while True:
+    run_script()
+```
+
+But before each rerun:
+
+It loads previous session_state.
+
+That’s the key.
+
+---

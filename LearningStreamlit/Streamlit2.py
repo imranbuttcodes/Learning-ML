@@ -103,3 +103,18 @@ st.download_button(
     mime='txt/csv',
     help='www.github.com/imranbuttcodes'
 )
+
+# pomt = st.chat_input("Enter Your Prompt")
+# st.write('You wrote', pomt)
+
+if "count" not in st.session_state:
+    st.session_state.count = 0
+
+if st.button("Increment"):
+    st.session_state.count +=1 
+
+#
+st.write('Counts:  ',st.session_state.count) 
+st.chat_message('user')
+st.write('hello 👋')
+naem = st.chat_input('Ask Anything')

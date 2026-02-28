@@ -106,3 +106,9 @@ if st.button('Next'):
 # min_value, max_value → range
 
 # value → default
+
+selected = st.multiselect('Select One', options=['A', 'B', 'C', 'D', 'E'])
+if st.button('Select'):
+    st.write(f'You Selected {selected}')
+print(type(selected))
+
