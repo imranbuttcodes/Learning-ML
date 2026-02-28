@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import datetime
 
 st.title("Learning Streamlit Basics 😎",text_alignment='center')
@@ -38,7 +39,7 @@ with col1:
     age = st.slider('Enter Your Age', 1,99,25)
     st.write('Your Age',age)
 with col2:
-    st.header('Column 2')
+    st.header('Column 2', divider='gray') # or st.header('Column 2', divider=True) 
     st.subheader('Column 2 Subheader')
     bro_age = st.slider("Enter Your Bro's Age", 1,99,25)
     st.write("Your Bro's Age",bro_age)
@@ -49,4 +50,56 @@ if st.sidebar.button('Next'):
 else:
     st.error('Error')
 st.sidebar.selectbox('Choose Your Mentor', ['Imran', 'Butt', 'Whome'])
+with st.expander('See Explanations'):
+    st.write('''
+        The chart above shows some numbers I picked for you.
+        I rolled actual dice for these, so they're *guaranteed* to
+        be random.
+    ''')
+st.markdown("# Hello Imran's World",text_alignment='center')
+st.markdown('> What should i write here?')
+st.markdown('- What should i write here as well?')
+st.markdown(' This is **bold** and *italic* string')
+st.markdown("- Item 1\n- Item 2\n- Item3")
+st.markdown("**Important Note:** Always Site Your Recources", help='This Displays Markdown text with hover tooltip')
+st.markdown("**Need Help 😢?**", help='https://www.chatgpt.com')
 
+
+# # Sample data
+df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
+csv = df.to_csv(index=False).encode('utf-8')
+
+st.download_button(
+    label="Download CSV",
+    data=csv,
+    file_name="data.csv",
+    mime="text/csv",
+    help='Bro Download bro00000000'
+) 
+
+file = open('StreamLitBasicFuncitons.txt','r', encoding='utf-8')
+st.download_button('Download StreamlitInfo',data=file,
+                   file_name='StreamlitInfo.txt',mime='text',help='hehe Bro 😎')
+
+file = st.file_uploader('Upload Your File', type=['csv'])
+if file is not None:
+        df = pd.read_csv(file)
+        st.dataframe(df)
+        if st.button('See Summery'):
+            st.subheader('Summery Stats')
+            st.dataframe(df.describe())
+        
+        if st.button('Save File'):
+            with open(file.name,'wb') as f:
+                f.write(file.getbuffer())
+            st.success('File Uploaded Successfully')
+          
+print(type(file))
+
+st.download_button(
+    'Download that file',
+    data=df.to_csv(index=False).encode('utf-8'),
+    file_name='bro.txt',
+    mime='txt/csv',
+    help='www.github.com/imranbuttcodes'
+)
