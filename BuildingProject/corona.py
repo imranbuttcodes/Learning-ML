@@ -27,7 +27,8 @@ def main():
     ax[0].bar(['positive results', 'negative results'], class_count, edgecolor = 'black', color = ["#690716", "#1F7D03"])
     ax[0].set_title('COVID Class Distribution')
     cat_col = df.select_dtypes(include=['category', 'object']).columns.tolist()
-  
+    print("------------ YOAH BRO _----------------",df['oxygen_level'].describe())
+    print("------------ YOAH BRO _----------------",df['body_temperature'].describe())
 
     num_col = df.drop('covid_result', axis=1).select_dtypes(include=['int64', 'float64']).columns.tolist()
     
