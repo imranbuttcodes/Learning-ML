@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-
+import joblib
 
 
 def main():
@@ -43,7 +43,8 @@ def main():
     cat_columns = titanic_df.select_dtypes(include=['category']).columns.tolist()
 
 
-
+    print("---------- Bro -------------\n",num_columns)
+    print("---------- Bro -------------\n",cat_columns)
 
     for column in num_columns:
         titanic_df[column]  = titanic_df[column].astype('float64')
@@ -203,6 +204,19 @@ def main():
     print(rf_cm)
     print('+'*50,end='\n\n')
     
+    print('Saving All Models...')
+
+    joblib.dump(lg_model, 'lg_titanic_model.joblib')
+    joblib.dump(dt_model, 'dt_titanic_model.joblib')
+    joblib.dump(rf_model, 'rf_titanic_model.joblib')
+    joblib.dump(knn_model, 'knn_titanic_model.joblib')
+    joblib.dump(encoder, 'titanic_encoder.joblib')
+    joblib.dump(scaler, 'titanic_scaler.joblib')
+
+    print('Models Saved!')
+
+
+
 
  
 
