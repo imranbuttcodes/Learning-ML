@@ -12,7 +12,7 @@ def generate_pdf_report_final(
     sore_throat, fatigue, headache, shortness_of_breath,
     loss_of_smell, loss_of_taste, chest_pain,
     travel_history, contact_with_patient,
-    prediction, probability
+    prediction, probability, model_name
 ):
    
     chart_data = pd.DataFrame({
@@ -45,6 +45,7 @@ def generate_pdf_report_final(
 
     # Patient Information
     pdf.set_font("Arial", "B", 14)
+    pdf.cell(0,8, f"Model Used: {model_name}", ln=True)
     pdf.cell(0, 8, "Patient Information", ln=True)
     pdf.set_font("Arial", "", 12)
     pdf.cell(0, 6, f"Age: {age}", ln=True)
@@ -103,77 +104,78 @@ st.set_page_config(
 
 # Load model
 @st.cache_resource
-def load_model():
-    model = joblib.load('models/corona_lg_model.joblib')
+def load_model(model_name):
+    model = joblib.load(model_name)
     preprocessor = joblib.load('models/preprocessor.joblib')
     return model, preprocessor
 
-model, preprocessor = load_model()
 
-# Title
-st.title("🦠 COVID-19 Risk Predictor")
-st.write("Enter patient information to predict COVID-19 risk")
+def get_data():
+    # Title
+    st.title("🦠 COVID-19 Risk Predictor")
+    st.write("Enter patient information to predict COVID-19 risk")
 
-st.write("---")
+    st.write("---")
+    model_choosed = st.selectbox('Choose Model', ['Logistic Regression', 'Random Forest'], index=0)
+    model, preprocessor = load_model("models/corona_lg_model.joblib" if model_choosed == 'Logistic Regression' else 'models/corona_rf_model.joblib')
 
-# Sidebar
-st.sidebar.header("Model Information")
-st.sidebar.metric("Accuracy", "76%")
-st.sidebar.metric("Recall", "89%")
-st.sidebar.metric("Precision", "72%")
+    # Sidebar
+    if model_choosed == 'Logistic Regression':
+        st.sidebar.header("Model Information")
+        st.sidebar.metric("Accuracy", "76%")
+        st.sidebar.metric("Recall", "89%")
+        st.sidebar.metric("Precision", "72%")
+    else:
+        st.sidebar.header("Model Information")
+        st.sidebar.metric("Accuracy", "82%")
+        st.sidebar.metric("Recall", "80%")
+        st.sidebar.metric("Precision", "84%")
+    st.sidebar.write("---")
 
-st.sidebar.write("---")
+    st.sidebar.warning("""
+    ⚠️ **Disclaimer**
 
-st.sidebar.warning("""
-⚠️ **Disclaimer**
+    Educational tool only.
+    Not for medical diagnosis.
+    Consult healthcare professionals.
+    """)
 
-Educational tool only.
-Not for medical diagnosis.
-Consult healthcare professionals.
-""")
+    st.header("Patient Information")
 
-st.header("Patient Information")
+    # Two columns
+    col1, col2 = st.columns(2)
 
-# Two columns
-col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("Basic Details")
+        age = st.number_input("Age", min_value=0, max_value=120, value=30)
+        gender = st.selectbox("Gender", ["Male", "Female"])
+        
+        st.subheader("Medical History")
+        comorbidity = st.selectbox(
+            "Pre-existing Condition", 
+            ["No_Comorbidity", "Diabetes", "Asthma", "Heart Disease"]
+        )
+        
+        st.subheader("Vital Signs")
+        oxygen_level = st.slider("Oxygen Level (%)", 77, 100, 95)
+        st.write(f'Oxygen Level ',oxygen_level)
+        body_temperature = st.slider("Body Temperature (°C)", 36.0, 41.0, 37.0, 0.1)
 
-with col1:
-    st.subheader("Basic Details")
-    age = st.number_input("Age", min_value=0, max_value=120, value=30)
-    gender = st.selectbox("Gender", ["Male", "Female"])
-    
-    st.subheader("Medical History")
-    comorbidity = st.selectbox(
-        "Pre-existing Condition", 
-        ["No_Comorbidity", "Diabetes", "Asthma", "Heart Disease"]
-    )
-    
-    st.subheader("Vital Signs")
-    oxygen_level = st.slider("Oxygen Level (%)", 77, 100, 95)
-    st.write(f'Oxygen Level ',oxygen_level)
-    body_temperature = st.slider("Body Temperature (°C)", 36.0, 41.0, 37.0, 0.1)
-
-with col2:
-    st.subheader("Symptoms")
-    sore_throat = st.checkbox("Sore Throat")
-    fatigue = st.checkbox("Fatigue")
-    headache = st.checkbox("Headache")
-    shortness_of_breath = st.checkbox("Shortness of Breath")
-    loss_of_smell = st.checkbox("Loss of Smell")
-    loss_of_taste = st.checkbox("Loss of Taste")
-    chest_pain = st.checkbox("Chest Pain")
-    
-    st.subheader("Exposure History")
-    travel_history = st.checkbox("Recent Travel (14 days)")
-    contact_with_patient = st.checkbox("Contact with COVID Patient")
-
-st.write("---")
-
-# Predict button
-if st.button("🔍 Predict Risk", type="primary"):
-    
-    # Prepare input data
-    input_data = {
+    with col2:
+        st.subheader("Symptoms")
+        sore_throat = st.checkbox("Sore Throat")
+        fatigue = st.checkbox("Fatigue")
+        headache = st.checkbox("Headache")
+        shortness_of_breath = st.checkbox("Shortness of Breath")
+        loss_of_smell = st.checkbox("Loss of Smell")
+        loss_of_taste = st.checkbox("Loss of Taste")
+        chest_pain = st.checkbox("Chest Pain")
+        
+        st.subheader("Exposure History")
+        travel_history = st.checkbox("Recent Travel (14 days)")
+        contact_with_patient = st.checkbox("Contact with COVID Patient")
+    st.write("---")
+    return model, preprocessor, model_choosed, {
         'age': age,
         'gender': gender,
         'sore_throat': int(sore_throat),
@@ -189,8 +191,8 @@ if st.button("🔍 Predict Risk", type="primary"):
         'contact_with_patient': int(contact_with_patient),
         'chest_pain': int(chest_pain)
     }
-    
-    # Create DataFrame
+
+def prepareData(input_data,preprocessor):
     input_df = pd.DataFrame([input_data])
     
     # One-hot encode categorical variables
@@ -210,79 +212,93 @@ if st.button("🔍 Predict Risk", type="primary"):
     input_scaled = preprocessor.transform(input_df)
     
     # Convert to DataFrame with proper column names
-    input_scaled_df = pd.DataFrame(
+    return pd.DataFrame(
         input_scaled, 
         columns=preprocessor.get_feature_names_out()
     )
-    
-    # Make prediction
-    prediction = model.predict(input_scaled_df)[0]
-    probability = model.predict_proba(input_scaled_df)[0]
-    
-    # Display results
-    st.write("---")
-    st.header("📋 Prediction Results")
-    
-    if prediction == 1:
-        st.error("### ⚠️ HIGH RISK")
-        st.metric("Confidence", f"{probability[1]*100:.1f}%")
-        
-        st.warning("""
-        **Recommended Actions:**
-        
-        - 🏠 Self-isolate immediately
-        - 🧪 Get tested (PCR/Rapid test)
-        - 👨‍⚕️ Contact healthcare provider
-        - 📞 Inform close contacts
-        - 🌡️ Monitor symptoms closely
-        """)
-        
-    else:
-        st.success("### ✅ LOW RISK")
-        st.metric("Confidence", f"{probability[0]*100:.1f}%")
-        
-        st.info("""
-        **Recommendations:**
-        
-        - 👀 Continue monitoring symptoms
-        - 🧪 Get tested if symptoms worsen
-        - 😷 Maintain safety precautions
-        - 💧 Stay hydrated and rest
-        - 👨‍⚕️ Consult doctor if concerned
-        """)
-    
-    # Probability breakdown
-    st.write("---")
-    st.subheader("Probability Breakdown")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.metric("High Risk Probability", f"{probability[1]*100:.1f}%")
-    with col2:
-        st.metric("Low Risk Probability", f"{probability[0]*100:.1f}%")
-    
-    # Simple bar chart
-    chart_data = pd.DataFrame({
-    "Risk Level": ["Low Risk", "High Risk"],
-    "Probability (%)": [probability[0]*100, probability[1]*100]
-    })
 
-    st.bar_chart(chart_data.set_index("Risk Level"))
-    pdf_bytes = generate_pdf_report_final(
-    age, gender, comorbidity, oxygen_level, body_temperature,
-    sore_throat, fatigue, headache, shortness_of_breath,
-    loss_of_smell, loss_of_taste, chest_pain,
-    travel_history, contact_with_patient,
-    prediction, probability
-)
 
-    st.download_button(
-        label="📄 Download Your Report",
-        data=pdf_bytes,
-        file_name="covid_report.pdf",
-        mime="application/pdf"
-    )
 
-# Footer
-st.write("Educational demonstration tool")
+
+def main():
+    model, preprocessor, model_name, input_data = get_data()
+
+    # Predict button
+    if st.button("🔍 Predict Risk", type="primary"):
+        # Create DataFrame
+        input_scaled_df = prepareData(input_data, preprocessor)
+        
+        # Make prediction
+        prediction = model.predict(input_scaled_df)[0]
+        probability = model.predict_proba(input_scaled_df)[0]
+        
+        # Display results
+        st.write("---")
+        st.header("📋 Prediction Results")
+        
+        if prediction == 1:
+            st.error("### ⚠️ HIGH RISK")
+            st.metric("Confidence", f"{probability[1]*100:.1f}%")
+            
+            st.warning("""
+            **Recommended Actions:**
+            
+            - 🏠 Self-isolate immediately
+            - 🧪 Get tested (PCR/Rapid test)
+            - 👨‍⚕️ Contact healthcare provider
+            - 📞 Inform close contacts
+            - 🌡️ Monitor symptoms closely
+            """)
+            
+        else:
+            st.success("### ✅ LOW RISK")
+            st.metric("Confidence", f"{probability[0]*100:.1f}%")
+            
+            st.info("""
+            **Recommendations:**
+            
+            - 👀 Continue monitoring symptoms
+            - 🧪 Get tested if symptoms worsen
+            - 😷 Maintain safety precautions
+            - 💧 Stay hydrated and rest
+            - 👨‍⚕️ Consult doctor if concerned
+            """)
+        
+        # Probability breakdown
+        st.write("---")
+        st.subheader("Probability Breakdown")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.metric("High Risk Probability", f"{probability[1]*100:.1f}%")
+        with col2:
+            st.metric("Low Risk Probability", f"{probability[0]*100:.1f}%")
+        
+        # Simple bar chart
+        chart_data = pd.DataFrame({
+        "Risk Level": ["Low Risk", "High Risk"],
+        "Probability (%)": [probability[0]*100, probability[1]*100]
+        })
+
+        st.bar_chart(chart_data.set_index("Risk Level"))
+
+        pdf_bytes = generate_pdf_report_final(
+        input_data['age'], input_data['gender'], input_data["comorbidity"], input_data["oxygen_level"], input_data["body_temperature"],
+        input_data["sore_throat"], input_data["fatigue"], input_data['headache'], input_data['shortness_of_breath'],
+        input_data['loss_of_smell'], input_data['loss_of_taste'], input_data['chest_pain'],
+        input_data['travel_history'], input_data['contact_with_patient'],
+        prediction, probability, model_name
+        )
+
+        st.download_button(
+            label="📄 Download Your Report",
+            data=pdf_bytes,
+            file_name="covid_report.pdf",
+            mime="application/pdf"
+        )
+
+    st.write("Educational demonstration tool")
+
+if __name__ == '__main__':
+    main()

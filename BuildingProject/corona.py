@@ -107,37 +107,37 @@ def main():
     print(f'{"="*10}==========={"="*10}\n')
 
 
-    # print(f'{"="*10} Random Forest {"="*10}\n')
-    # rf_param_grid = {
-    # 'max_depth': [3, 5, 7, 10],
-    # 'min_samples_split': [5, 10, 20],
-    # 'min_samples_leaf': [2, 5, 10],
-    # 'criterion': ['gini', 'entropy']
-    # }
+    print(f'{"="*10} Random Forest {"="*10}\n')
+    rf_param_grid = {
+    'max_depth': [3, 5, 7, 10],
+    'min_samples_split': [5, 10, 20],
+    'min_samples_leaf': [2, 5, 10],
+    'criterion': ['gini', 'entropy']
+    }
 
 
-    # rf_model = RandomForestClassifier(n_estimators=100,criterion='gini',)
-    # grid_search = GridSearchCV(rf_model,rf_param_grid, scoring='accuracy',n_jobs=-1)
-    # grid_search.fit(x_train_scaled_df,y_train)
-    # rf_model = grid_search.best_estimator_
+    rf_model = RandomForestClassifier(n_estimators=100,criterion='gini',)
+    grid_search = GridSearchCV(rf_model,rf_param_grid, scoring='accuracy',n_jobs=-1)
+    grid_search.fit(x_train_scaled_df,y_train)
+    rf_model = grid_search.best_estimator_
     
 
 
-    # rf_test_predictions = rf_model.predict(x_test_scaled_df)
-    # rf_train_predictions = rf_model.predict(x_train_scaled_df)
+    rf_test_predictions = rf_model.predict(x_test_scaled_df)
+    rf_train_predictions = rf_model.predict(x_train_scaled_df)
 
-    # print(f'Training Accuracy = {accuracy_score(y_train,rf_train_predictions):.2f}') 
-    # print(f'Testing Accuracy = {accuracy_score(y_test,rf_test_predictions):.2f}')
-    # print(f'Recall: {recall_score(y_test,rf_test_predictions):.2f}')
-    # print(f'Precision Score: {precision_score(y_test, rf_test_predictions):.2f}')
-    # rf_cm = confusion_matrix(y_test, lg_test_predictions)
-    # print('----------------- Confusion Metrix -----------------\n')
-    # print(rf_cm,end='\n\n')
+    print(f'Training Accuracy = {accuracy_score(y_train,rf_train_predictions):.2f}') 
+    print(f'Testing Accuracy = {accuracy_score(y_test,rf_test_predictions):.2f}')
+    print(f'Recall: {recall_score(y_test,rf_test_predictions):.2f}')
+    print(f'Precision Score: {precision_score(y_test, rf_test_predictions):.2f}')
+    rf_cm = confusion_matrix(y_test, lg_test_predictions)
+    print('----------------- Confusion Metrix -----------------\n')
+    print(rf_cm,end='\n\n')
 
-    # print('Saving RandomForest model......')    
-    # jb.dump(rf_model,'corona_rf_model.joblib')
+    print('Saving RandomForest model......')    
+    jb.dump(rf_model,'corona_rf_model.joblib')
 
-    # print(f'{"="*10}==========={"="*10}\n')
+    print(f'{"="*10}==========={"="*10}\n')
     
     disp = ConfusionMatrixDisplay(confusion_matrix=lg_cm, display_labels=['No Covid', 'Covid'])
 
