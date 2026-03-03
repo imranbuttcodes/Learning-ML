@@ -176,7 +176,7 @@ if st.button("Predict Survival"):
     # PDF download
     pdf_bytes = generate_pdf(input_data, prediction, probability, model_choice)
     st.download_button(
-        label="📄 Download Report",
+        label="💾 Download Report",
         data=pdf_bytes,
         file_name="titanic_report.pdf",
         mime="application/pdf"

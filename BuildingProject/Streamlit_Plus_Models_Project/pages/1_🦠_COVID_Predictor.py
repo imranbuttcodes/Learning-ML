@@ -292,7 +292,7 @@ def main():
         )
 
         st.download_button(
-            label="📄 Download Your Report",
+            label="💾 Download Your Report",
             data=pdf_bytes,
             file_name="covid_report.pdf",
             mime="application/pdf"
