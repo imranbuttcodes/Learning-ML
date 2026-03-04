@@ -59,22 +59,16 @@ SmartMLPredictor/
 │   └── preprocessor.joblib
 │
 ├── pages/                    # Individual app pages for Streamlit
-│   ├── 1_Diabetes_Predictor.py
-│   ├── 2_Titanic_Survival_Predictor.py
-│   └── 3_COVID19_Risk_Predictor.py
+│   ├── 1_🦠_Covid19_Risk_Predictor.py
+│   ├── 2_ 🚢_TITANIC_Survival_Predictor.py
+│   └── 3_ 💊_Diabetics_Predictor.py
 │
 ├── screenshots/              # Screenshots for README.md or presentations
 │   ├── home.png
 │   ├── diabetes.png
 │   ├── titanic.png
 │   └── covid.png
-│
-└── utils/                    # Optional: helper functions for PDF, charts, preprocessing
-├── pdf_helpers.py
-├── chart_helpers.py
-└── preprocessing.py
 
-````
 
 ---
 
@@ -112,7 +106,6 @@ streamlit run app.py
 
 Navigate between modules using the sidebar, fill in input data, click **Predict**, and download PDF reports.
 
----
 
 ## 📋 Modules Overview
 
@@ -155,13 +148,17 @@ Predictions are **not medical advice** or real-life decision-making tools. Alway
 ## 🎨 Screenshots
 
 **Home Page**
+
 ![Home](screenshots/home.png)
 
 **Diabetes Predictor**
+
 ![Diabetes](screenshots/diabetes.png)
 
 **Titanic Predictor**
+
 ![Titanic](screenshots/titanic.png)
 
 **COVID-19 Predictor**
+
 ![COVID-19](screenshots/covid.png)
