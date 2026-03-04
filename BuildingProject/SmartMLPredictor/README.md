@@ -147,18 +147,29 @@ Predictions are **not medical advice** or real-life decision-making tools. Alway
 
 ## 🎨 Screenshots
 
-**Home Page**
+### Home Page
+![Home Page](screenshots/home.png)
 
-![Home](screenshots/home.png)
+*Main landing page with navigation to all prediction tools*
 
-**Diabetes Predictor**
+---
 
-![Diabetes](screenshots/diabetes.png)
+### 💊 Diabetes Predictor
+![Diabetes Predictor](screenshots/diabetes.png)
 
-**Titanic Predictor**
+*Predict diabetes risk based on medical metrics*
 
-![Titanic](screenshots/titanic.png)
+---
 
-**COVID-19 Predictor**
+### 🚢 Titanic Survival Predictor
+![Titanic Predictor](screenshots/titanic.png)
 
-![COVID-19](screenshots/covid.png)
+*Predict passenger survival with multiple ML models*
+
+---
+
+### 🦠 COVID-19 Risk Predictor
+![COVID-19 Predictor](screenshots/covid.png)
+
+*Assess COVID-19 infection risk from symptoms*
+
