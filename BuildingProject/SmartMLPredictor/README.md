@@ -173,3 +173,29 @@ Predictions are **not medical advice** or real-life decision-making tools. Alway
 
 *Assess COVID-19 infection risk from symptoms*
 
+## 📖 Usage Examples
+
+### Diabetes Prediction
+```bash
+# Run the app
+streamlit run app.py
+
+# Navigate to "Diabetes Predictor" in sidebar
+# Enter patient data:
+# - Age: 45
+# - Glucose: 150
+# - BMI: 32
+# - etc.
+
+# Click "Predict Diabetes Risk"
+# Download PDF report
+```
+
+### COVID-19 Prediction
+```bash
+# Navigate to "COVID-19 Predictor"
+# Enter symptoms and vitals
+# Get instant risk assessment
+# Download detailed report
+```
+
