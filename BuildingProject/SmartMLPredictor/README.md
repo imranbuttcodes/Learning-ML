@@ -1,4 +1,3 @@
-```markdown
 # 🤖 Smart ML Predictor
 
 Smart ML Predictor is an educational collection of interactive machine learning prediction tools built with Python and Streamlit.  
