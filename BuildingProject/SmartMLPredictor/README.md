@@ -201,12 +201,19 @@ streamlit run app.py
 
 ## 🙏 Acknowledgments
 
-- Dataset sources:
-  - Diabetes: [Pima Indians Diabetes Database](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
-  - Titanic: [Kaggle Titanic Dataset](https://www.kaggle.com/c/titanic)
-  - COVID-19: [COVID-19 Dataset](https://www.kaggle.com/datasets/miadul/covid-19-patient-symptoms-and-diagnosis-dataset)
-  - Titanic: [Titanic Dataset](https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv)
-- Built with [Streamlit](https://streamlit.io/)
-- ML models powered by [Scikit-learn](https://scikit-learn.org/)
+**Dataset Sources:**
+- **Diabetes:** [Pima Indians Diabetes Database](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
+- **Titanic (Alternative):** [GitHub Raw Dataset](https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv)
+- **COVID-19:** [Patient Symptoms & Diagnosis Dataset](https://www.kaggle.com/datasets/miadul/covid-19-patient-symptoms-and-diagnosis-dataset)
+
+**Built With:**
+- [Streamlit](https://streamlit.io/) - Interactive web framework
+- [Scikit-learn](https://scikit-learn.org/) - Machine Learning library
+- [Pandas](https://pandas.pydata.org/) - Data manipulation and analysis
+- [NumPy](https://numpy.org/) - Numerical computing
+- [Matplotlib](https://matplotlib.org/) - Data visualization
+- [FPDF](https://pyfpdf.readthedocs.io/) - PDF report generation
+- [Joblib](https://joblib.readthedocs.io/) - Model serialization
 
 ---
+```
