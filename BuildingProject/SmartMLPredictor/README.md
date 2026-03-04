@@ -215,5 +215,4 @@ streamlit run app.py
 - [FPDF](https://pyfpdf.readthedocs.io/) - PDF report generation
 - [Joblib](https://joblib.readthedocs.io/) - Model serialization
 
----
-```
+
