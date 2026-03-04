@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 # Title
-st.title("🤖 Prediction Tools")
+st.title("🤖 Smart ML Predictor")
 st.write("Data-driven prediction applications")
 
 
