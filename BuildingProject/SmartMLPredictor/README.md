@@ -25,7 +25,7 @@ It allows users to make predictions and generate PDF reports for:
 
 ## 🛠️ Technologies Used
 
-- Python 3.10+  
+- Python   
 - Streamlit  
 - Pandas & NumPy  
 - Scikit-learn  
