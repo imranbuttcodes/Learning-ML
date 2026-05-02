@@ -1,0 +1,1 @@
+[click here buddy!](https://www.geeksforgeeks.org/machine-learning/categorical-data-encoding-techniques-in-machine-learning/)
