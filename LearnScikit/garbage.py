@@ -197,7 +197,6 @@ df.dropna(subset=["Electrical"], inplace=True)
 
 print("Skewness:",df['SalePrice'].skew())
 
-
 X = df.drop('SalePrice', axis=1)
 
 Y = np.log(df["SalePrice"])
@@ -290,3 +289,4 @@ print(f"RMSE: {np.sqrt(mean_squared_error(Y_test_real,Y_pred_real))}")
 print(f"r2 score: {r2_score(Y_test_real,Y_pred_real)}")
 
 print("----------------------------------------")
+
