@@ -1,11 +1,11 @@
-# from sklearn.datasets import fetch_california_housing
-# from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-# from sklearn.model_selection import train_test_split 
-# from sklearn.linear_model import LinearRegression
-# from sklearn.preprocessing import StandardScaler, MinMaxScaler
-# import numpy as np
-# import pandas as pd
-# import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_california_housing
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 # # def main():
@@ -91,3 +91,10 @@
 # print(df)
 
 
+df = pd.DataFrame({
+    'Name': ['Imran', np.nan, 'Butt', 'Yoah', 'heeeeehe', np.nan, 'yoooooooah', 'whatup'] ,
+    'Age': [12,23,23,np.nan, 23,56,76,np.nan]
+})
+
+
+print(df[df.isnull().any(axis=1)]) # to check which rows are empty
