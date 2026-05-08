@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+ import matplotlib.pyplot as plt
 
 labels = ["Laptop", "Phone", "Tablet", "TV"]
 sales  = [35, 22, 15, 24]
